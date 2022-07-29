@@ -7,6 +7,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+
 # define MNIST baseline model
 class MNISTNet(nn.Module):
     def __init__(self):
@@ -43,13 +44,13 @@ transform = transforms.Compose([
 # load mnist data
 train_data = datasets.MNIST(
     root = 'data',
-    train = True,                         
-    transform = transform, 
+    train = True,
+    transform = transform,
 )
 
 test_data = datasets.MNIST(
-    root = 'data', 
-    train = False, 
+    root = 'data',
+    train = False,
     transform = transform
 )
 

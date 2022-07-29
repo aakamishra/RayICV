@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 
+
 class Workflow:
     @staticmethod
     def train(model, device, train_loader, optimizer):

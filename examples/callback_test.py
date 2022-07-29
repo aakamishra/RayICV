@@ -5,6 +5,7 @@ from typing import List, Dict
 import torch
 import torchmetrics
 
+
 class PrintingCallback(TrainingCallback):
     def handle_result(self, results: List[Dict], **info):
         print(results)

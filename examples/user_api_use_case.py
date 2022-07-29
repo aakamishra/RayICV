@@ -5,6 +5,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+
 # define MNIST baseline model
 class MNISTNet(nn.Module):
     def __init__(self):
@@ -41,14 +42,14 @@ transform = transforms.Compose([
 # load mnist data
 train_data = datasets.MNIST(
     root = 'data',
-    train = True,                         
-    transform = transform, 
-    download = True,            
+    train = True,
+    transform = transform,
+    download = True,
 )
 
 test_data = datasets.MNIST(
-    root = 'data', 
-    train = False, 
+    root = 'data',
+    train = False,
     transform = transform
 )
 
@@ -62,6 +63,5 @@ print(train_data.targets.size())
 
 # run distributed cross validation
 print("About to run distributed RayCrossValidation")
-optimizer = optim.Adam(cnn.parameters(), lr = 0.01)  
+optimizer = optim.Adam(cnn.parameters(), lr = 0.01)
 RayCrossValidation(MNISTNet, train_data, 5, optimizer=optimizer, epochs=10)
-
