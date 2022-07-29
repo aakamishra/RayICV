@@ -1,5 +1,10 @@
-# iolaus
-Improving Cross-Validation using Back-tracking on a Distributed ML-Training Framework
+# Iolaus
+
+## Introduction
+
+Iolaus implements an optimization to cross-validation by using backtracking on a distributed ML training framework.
+
+## Environment Setup
 
 Install dev environment:
 ```bash
