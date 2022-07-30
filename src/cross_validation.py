@@ -22,12 +22,10 @@ class CrossValidationFoldGenerator:
             # sample from the folds given the indics for the fold split
             train_subsampler = torch.utils.data.SubsetRandomSampler(train_idx)
             val_subsampler = torch.utils.data.SubsetRandomSampler(val_idx)
-            train_loader = torch.utils.data.DataLoader(
-                                            self.dataset,
-                                            batch_size=self.batch_size, sampler=train_subsampler)
-            val_loader = torch.utils.data.DataLoader(
-                                            self.dataset,
-                                            batch_size=self.batch_size, sampler=val_subsampler)
+            train_loader = torch.utils.data.DataLoader(self.dataset,
+                batch_size=self.batch_size, sampler=train_subsampler)
+            val_loader = torch.utils.data.DataLoader(self.dataset,
+                batch_size=self.batch_size, sampler=val_subsampler)
             partitions[fold] = (train_loader, val_loader)
         return partitions
 

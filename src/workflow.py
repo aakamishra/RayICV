@@ -28,8 +28,10 @@ class Workflow:
             for data, target in val_loader:
                 data, target = data.to(device), target.to(device)
                 output = model(data)
-                val_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
-                pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+                # sum up batch loss
+                val_loss += F.nll_loss(output, target, reduction='sum').item()
+                # get the index of the max log-probability
+                pred = output.argmax(dim=1, keepdim=True)
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
         val_loss /= len(val_loader.dataset)

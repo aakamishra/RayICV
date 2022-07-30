@@ -37,23 +37,13 @@ class MNISTNet(nn.Module):
 
 # define transform for dataset
 transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.1307,), (0.3081,))
-        ])
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
 
 # load mnist data
-train_data = datasets.MNIST(
-    root = 'data',
-    train = True,
-    transform = transform,
-)
-
-test_data = datasets.MNIST(
-    root = 'data',
-    train = False,
-    transform = transform
-)
-
+train_data = datasets.MNIST(root='data', train=True, transform=transform)
+test_data = datasets.MNIST(root='data', train=False, transform=transform)
 
 print("Confirm Data-LoadOp Was Successful")
 print("==================================")

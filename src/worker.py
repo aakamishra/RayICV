@@ -25,13 +25,19 @@ class Worker:
     def worker_run(self):
         # epoch runner
         for epoch in range(self.epochs):
-            train_loss = Workflow.train(self.model, self.device, self.train_loader, self.optimizer)
-            val_loss, val_accuracy = Workflow.val(self.model, self.device, self.val_loader)
-            train.report(epoch=epoch, train_loss=train_loss, val_loss=val_loss, val_accuracy=val_accuracy, worker_id=train.world_rank())
+            train_loss = Workflow.train(self.model, self.device,
+                                        self.train_loader, self.optimizer)
+            val_loss, val_accuracy = Workflow.val(self.model, self.device,
+                                                  self.val_loader)
+            train.report(epoch=epoch, train_loss=train_loss, val_loss=val_loss,
+                         val_accuracy=val_accuracy,
+                         worker_id=train.world_rank())
 
     @staticmethod
     def worker_func(config):
-        Worker(config["data"][train.world_rank()], config["model_config"]).worker_run()
+        worker = Worker(config["data"][train.world_rank()],
+                        config["model_config"])
+        worker.worker_run()
 
 
 
