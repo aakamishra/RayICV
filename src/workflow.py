@@ -15,7 +15,7 @@ class Workflow:
             loss = F.nll_loss(output, target)
             loss.backward()
             optimizer.step()
-        train_loss /= len(train_loader.dataset)
+        #train_loss /= len(train_loader.dataset)
         return train_loss
 
 
@@ -34,7 +34,7 @@ class Workflow:
                 pred = output.argmax(dim=1, keepdim=True)
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
-        val_loss /= len(val_loader.dataset)
+        #val_loss /= len(val_loader.dataset)
         accuracy = 100. * correct / len(val_loader.dataset)
 
         return val_loss, accuracy

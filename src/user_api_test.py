@@ -10,12 +10,18 @@ import torch.nn as nn
 
 # define MNIST baseline model
 class MNISTNet(nn.Module):
-    def __init__(self):
+    def __init__(self, config):
+        d1, d2, = 0.25, 0.5
+        if "d1" in config:
+            d1 = config["d1"]
+        if "d2" in config:
+            d2 = config["d2"]
+        print("model params: ", d1, d2)
         super(MNISTNet, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
-        self.dropout1 = nn.Dropout(0.25)
-        self.dropout2 = nn.Dropout(0.5)
+        self.dropout1 = nn.Dropout(d1)
+        self.dropout2 = nn.Dropout(d2)
         self.fc1 = nn.Linear(9216, 128)
         self.fc2 = nn.Linear(128, 10)
 
@@ -55,4 +61,6 @@ print(train_data.targets.size())
 # run distributed cross validation
 print("About to run distributed RayCrossValidation")
 optimizer = optim.Adadelta
-RayCrossValidation(MNISTNet, train_data, 5, optimizer=optimizer, epochs=10)
+parameters = {"d1" : [0.01, 0.1, 0.25], "d2" : [0.1, 0.5]}
+best_config = RayCrossValidation(MNISTNet, train_data, parameters, 5, optimizer=optimizer, epochs=1)
+print("Best Config", best_config)
