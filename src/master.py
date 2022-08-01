@@ -37,9 +37,9 @@ class Master:
 
         heap = ModelHeap(model_indices)
         print("Heap Initialized: ", str(heap))
-        while heap.heap[0][0] != self.folds:
+        while heap.folds_trained(self.folds) < num_models:
             # create config to pass worker
-            model_indices = [heap.pop_model() for i in range(self.num_workers) if heap.heap[i][0] != self.folds]
+            model_indices = [heap.pop_model() if heap.heap[i][0] != self.folds else -1 for i in range(self.num_workers) if heap.heap[i][0] != self.folds]
             config = {"data" : partitions, "model_config" : model_config, "model_indices" : model_indices, "param_configs" : param_configs}
             print(f"Passing in config: {config}")
             self.trainer.start()
@@ -48,16 +48,17 @@ class Master:
             print(results)
             for i in range(self.num_workers):
                 agg_train_loss, agg_val_loss, avg_val_acc = results[i]
-                model_index = model_indices[i][-1]
-                model_train_losses[model_index] += agg_train_loss
-                model_val_losses[model_index] += agg_val_loss
+                if agg_train_loss is not None:
 
-                current_folds = model_indices[i][0] + 1
-                heap.push_model(folds=current_folds, 
-                                val_loss=model_val_losses[model_index]/current_folds, 
-                                train_loss=model_train_losses[model_index]/current_folds, 
-                                model=model_index)
+                    model_index = model_indices[i][-1]
+                    model_train_losses[model_index] += agg_train_loss
+                    model_val_losses[model_index] += agg_val_loss
+
+                    current_folds = model_indices[i][0] + 1
+                    heap.push_model(folds=current_folds, 
+                                    val_loss=model_val_losses[model_index]/current_folds, 
+                                    train_loss=model_train_losses[model_index]/current_folds, 
+                                    model=model_index)
             print("Heap Update: ", str(heap))
             self.trainer.shutdown()
-        print("Best Model", heap.heap[0], "model param_configs: ", param_configs[heap.heap[0][-1]])
-        return heap[0][-1]
+        print("val: ", model_val_losses, "train: ", model_train_losses)

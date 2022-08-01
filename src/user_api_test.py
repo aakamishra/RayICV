@@ -61,6 +61,6 @@ print(train_data.targets.size())
 # run distributed cross validation
 print("About to run distributed RayCrossValidation")
 optimizer = optim.Adadelta
-parameters = {"d1" : [0.01, 0.1, 0.25], "d2" : [0.1, 0.5]}
+parameters = {"d1" : [0.01, 0.1, 0.25, 0.3], "d2" : [0.1, 0.3, 0.5]}
 best_config = RayCrossValidation(MNISTNet, train_data, parameters, 5, optimizer=optimizer, epochs=1)
 print("Best Config", best_config)

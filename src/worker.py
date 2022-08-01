@@ -47,6 +47,8 @@ class Worker:
     def worker_func(config):
         working_model = config["model_indices"][train.world_rank()]
         model_index = working_model[-1]
+        if model_index < 0:
+            return None, None, None
         fold_index = working_model[0]
         print("Creating New Worker Assignment: ", " Model Assignment: ", model_index, " Fold: ", fold_index)
         worker = Worker(config["data"][fold_index],
