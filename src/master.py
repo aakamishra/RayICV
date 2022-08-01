@@ -39,7 +39,7 @@ class Master:
         print("Heap Initialized: ", str(heap))
         while heap.folds_trained(self.folds) < num_models:
             # create config to pass worker
-            model_indices = [heap.pop_model() if heap.heap[i][0] != self.folds else -1 for i in range(self.num_workers) if heap.heap[i][0] != self.folds]
+            model_indices = [heap.pop_model() if heap.heap[i][0] < self.folds else -1 for i in range(self.num_workers)]
             config = {"data" : partitions, "model_config" : model_config, "model_indices" : model_indices, "param_configs" : param_configs}
             print(f"Passing in config: {config}")
             self.trainer.start()
