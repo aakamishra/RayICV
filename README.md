@@ -6,6 +6,8 @@ Iolaus implements an optimization to cross-validation by using backtracking on a
 
 Iolaus attempts to improve upon traditional grid-search, which is commonly used in conjunction with cross-validation, in order to obtain more appropriately-tuned values that account for the variance in the dataset. The main idea of Iolaus is that by running multiple cross-validation jobs currently in a distributed setting, it is possible to optimize what parameters are run on each job and therefore eliminate combinations of hyperparameters through certain heuristic, which in turn improves overall performance.
 
+Similar work in parallelizing hyperparameter optimization has been done in [this paper](https://blog.ml.cmu.edu/2018/12/12/massively-parallel-hyperparameter-optimization/). 
+
 ## Environment Setup
 
 To install the virtual environment, run the following commands from the project's root directory:
