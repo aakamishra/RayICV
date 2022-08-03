@@ -6,7 +6,7 @@ Iolaus implements an optimization to cross-validation by using backtracking on a
 
 ## Environment Setup
 
-Install dev environment:
+To install the virtual environment, run the following commands from the project's root directory:
 ```bash
 conda env create -f environment.yml
 conda activate iolaus-dev
