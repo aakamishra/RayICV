@@ -24,3 +24,6 @@ Traceback (most recent call last):
 
 In that case, follow the instructions to modify the Torchvision source and rerun. If all goes well, then the MNIST dataset should download locally.
 
+### Design Overview
+
+Iolaus attempts to improve upon traditional grid-search, which is commonly used in conjunction with cross-validation, in order to obtain more appropriately-tuned values that account for the variance in the dataset. The main idea of Iolaus is that by running multiple cross-validation jobs currently in a distributed setting, it is possible to optimize what parameters are run on each job and therefore eliminate combinations of hyperparameters through certain heuristic, which in turn improves overall performance.
