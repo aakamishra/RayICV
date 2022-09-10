@@ -62,9 +62,3 @@ class Worker:
             config['param_configs'][model_index]
         )
         return worker.worker_run()
-
-
-
-
-
-
