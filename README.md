@@ -1,6 +1,6 @@
 # Iolaus
 
-Iolaus implements an optimization to cross-validation by using backtracking on a distributed ML training framework.
+Iolaus implements a optimized version of inner cross-validation within the Ray unified computing framework. Our optimized cross-validation algorithm uses backtracking to enable early stopping.
 
 ## Design Overview
 
