@@ -12,17 +12,20 @@ from workflow import Workflow
 class Worker:
     def __init__(self, data, model_config, param_config):
         # initialize device worker
-        self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device(
+            'cuda:0' if torch.cuda.is_available() else 'cpu'
+        )
         print(f'Init Worker: {train.world_rank()}, Using device: {self.device}')
 
         self.train_loader, self.val_loader = data
 
         # import config params
-        print("Intializing Model with Config: ", param_config)
-        self.model = train.torch.prepare_model(model_config["model"](param_config)).to(self.device)
-        self.optimizer = model_config["optimizer"](self.model.parameters())
-        self.epochs = model_config["epochs"]
-
+        print('Intializing Model with Config: ', param_config)
+        self.model = train.torch.prepare_model(
+            model_config['model'](param_config)
+        ).to(self.device)
+        self.optimizer = model_config['optimizer'](self.model.parameters())
+        self.epochs = model_config['epochs']
 
     def worker_run(self):
         # epoch runner
@@ -45,14 +48,19 @@ class Worker:
 
     @staticmethod
     def worker_func(config):
-        working_model = config["model_indices"][train.world_rank()]
+        working_model = config['model_indices'][train.world_rank()]
+        print('Working_model: ', working_model)
         model_index = working_model[-1]
         if model_index < 0:
             return None, None, None
         fold_index = working_model[0]
-        print("Creating New Worker Assignment: ", " Model Assignment: ", model_index, " Fold: ", fold_index)
-        worker = Worker(config["data"][fold_index],
-                        config["model_config"], config["param_configs"][model_index])
+        print(f'Creating new worker assignment with model assignment \
+            {model_index} and fold {fold_index}')
+        worker = Worker(
+            config['data'][fold_index],
+            config['model_config'],
+            config['param_configs'][model_index]
+        )
         return worker.worker_run()
 
 

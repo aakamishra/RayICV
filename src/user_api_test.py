@@ -12,11 +12,11 @@ import torch.nn as nn
 class MNISTNet(nn.Module):
     def __init__(self, config):
         d1, d2, = 0.25, 0.5
-        if "d1" in config:
-            d1 = config["d1"]
-        if "d2" in config:
-            d2 = config["d2"]
-        print("model params: ", d1, d2)
+        if 'd1' in config:
+            d1 = config['d1']
+        if 'd2' in config:
+            d2 = config['d2']
+        print('model params: ', d1, d2)
         super(MNISTNet, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
@@ -51,16 +51,17 @@ transform = transforms.Compose([
 train_data = datasets.MNIST(root='data', train=True, transform=transform)
 test_data = datasets.MNIST(root='data', train=False, transform=transform)
 
-print("Confirm Data-LoadOp Was Successful")
-print("==================================")
+print('Confirm Data-LoadOp Was Successful')
+print('==================================')
 print(train_data)
 print(train_data.data.size())
 print(test_data)
 print(train_data.targets.size())
 
 # run distributed cross validation
-print("About to run distributed RayCrossValidation")
+print('About to run distributed RayCrossValidation')
 optimizer = optim.Adadelta
-parameters = {"d1" : [0.01, 0.1, 0.25, 0.3], "d2" : [0.1, 0.3, 0.5]}
-best_config = RayCrossValidation(MNISTNet, train_data, parameters, 5, optimizer=optimizer, epochs=1)
-print("Best Config", best_config)
+parameters = {'d1' : [0.01, 0.1, 0.25, 0.3], 'd2' : [0.1, 0.3, 0.5]}
+best_config = RayCrossValidation(MNISTNet, train_data, parameters, 5,
+                                 optimizer=optimizer, epochs=1)
+print('Best Config', best_config)

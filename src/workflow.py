@@ -7,7 +7,7 @@ class Workflow:
     def train(model, device, train_loader, optimizer):
         model.train()
         train_loss = 0
-        for batch_idx, (data, target) in enumerate(train_loader):
+        for _, (data, target) in enumerate(train_loader):
             data, target = data.to(device), target.to(device)
             optimizer.zero_grad()
             output = model(data)
@@ -17,7 +17,6 @@ class Workflow:
             optimizer.step()
         train_loss /= len(train_loader.dataset)
         return train_loss
-
 
     @staticmethod
     def val(model, device, val_loader):

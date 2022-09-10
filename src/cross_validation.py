@@ -10,7 +10,9 @@ class CrossValidationFoldGenerator:
         self.batch_size = batch_size
 
     def __repr__(self):
-        return f"CrossValidationFoldGenerator(dataset={self.dataset}, folds={self.folds}, batch_size={self.batch_size}, shuffle={self.shuffle})"
+        return f'CrossValidationFoldGenerator(dataset={self.dataset}, \
+            folds={self.folds}, batch_size={self.batch_size}, \
+            shuffle={self.shuffle})'
 
     def generate(self):
         # create fold generator

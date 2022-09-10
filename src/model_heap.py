@@ -16,7 +16,10 @@ class ModelHeap:
         return heapq.heappop(self.heap)
 
     def pushpop_models(self, model, folds, train_loss, val_loss):
-        return heapq.heappushpop(self.heap, (folds, val_loss, train_loss, model))
+        return heapq.heappushpop(
+            self.heap,
+            (folds, val_loss, train_loss, model)
+        )
 
     def folds_trained(self, folds):
         suma = 0
@@ -26,4 +29,7 @@ class ModelHeap:
         return suma
 
     def __str__(self):
-        return str([(folds, val_loss, train_loss, i) for (folds, val_loss, train_loss, i) in self.heap])
+        return str([
+            (folds, val_loss, train_loss, i)
+            for (folds, val_loss, train_loss, i) in self.heap
+        ])
