@@ -1,12 +1,52 @@
-# Iolaus
+# RayICV 
+## (Ray ML Internal Cross-Validation Solution)
 
-Iolaus implements a optimized version of inner cross-validation within the [Ray unified computing framework](https://www.ray.io/). Our optimized cross-validation algorithm uses backtracking to enable early stopping.
+RayICV Implements a hyper-parameter tuning solution with cross-validation built-in on top of the Ray train framework in order to emulate the scheduling of jobs based on folds trained and model configuration. 
 
 ## Design Overview
 
-Iolaus attempts to improve upon traditional grid-search, which is commonly used in conjunction with cross-validation, in order to obtain more appropriately-tuned values that account for the variance in the dataset. The main idea of Iolaus is that by running multiple cross-validation jobs currently in a distributed setting, it is possible to optimize what parameters are run on each job and therefore eliminate combinations of hyperparameters through certain heuristics, improving overall performance.
+RayICV implements its own job scheduling for eahc train job by splitting workflows based on the ids of the workers generated through the Ray Train interface. It can then split each workers job through the Min-Heap Scheduling algorithm that priotizes training of folds with models that have a better performance statistic. 
 
-Similar work in parallelizing hyperparameter optimization has been done in [this paper](https://blog.ml.cmu.edu/2018/12/12/massively-parallel-hyperparameter-optimization/). 
+
+![Design File](RayDiagram.png "RayICV Design")
+
+
+### API Shim
+
+```python
+
+RayCrossValidation:
+    def __init__(
+        self,
+        model,
+        dataset,
+        parameters,
+        folds,
+        optimizer,
+        epochs=10,
+        batch_size=32,
+        use_gpu=False,
+        backend="torch",
+        num_workers=3,
+    )
+```
+
+The API shim layer takes in the normal Ray train distributed environment parameters alongside the number of folds and batches that the user wants the cross-validation to perform. 
+
+### Master Class
+
+The master class implements the assignment of workers to configurations and uses the `CrossValidationFoldGenerator` in order to partition the models such that each configuration is trained for the number of folds specified by the user.
+
+### Worker Class
+
+The worker class takes the model object and the assigned configuration and runs a "workflow" for either training or validation and then reports back the metrics of loss through the `Metric` class which implements customs callbacks. 
+
+### ModelHeap
+
+The model heap object class is how the RayICV prioritizes the next job to run based on the results given from the workflow in the callback reported by the metrics class. 
+
+
+--------------------
 
 ## Environment Setup
 
