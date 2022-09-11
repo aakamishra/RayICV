@@ -1,9 +1,7 @@
 from torchvision import datasets, transforms
-from torchvision import transforms
 from api import RayCrossValidation
 import torch.optim as optim
 import torch.nn.functional as F
-import numpy as np
 import torch
 import torch.nn as nn
 
@@ -61,7 +59,7 @@ print(train_data.targets.size())
 # run distributed cross validation
 print('About to run distributed RayCrossValidation')
 optimizer = optim.Adadelta
-parameters = {'d1' : [0.01, 0.1, 0.25, 0.3], 'd2' : [0.1, 0.3, 0.5]}
+parameters = {'d1': [0.01, 0.1, 0.25, 0.3], 'd2': [0.1, 0.3, 0.5]}
 best_config = RayCrossValidation(MNISTNet, train_data, parameters, 5,
                                  optimizer=optimizer, epochs=1)
 print('Best Config', best_config)
